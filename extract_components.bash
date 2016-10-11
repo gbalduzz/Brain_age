@@ -1,3 +1,5 @@
+## This file extract the spinal fluid, white and grey matter components from the .nii files.
+## It assumes the folders set_train and set_test are present in this directory.
 ########## input ########
 declare -a Ns=(278 138) #number of files in each folder
 declare -a starts=(1 1)
@@ -17,7 +19,6 @@ function work_item {
 }
 
 
-# name of folder
 iter=0
 for type in train test; do
     cd set_$type
@@ -34,9 +35,10 @@ for type in train test; do
 	id=$[ ($i-$start+1) % $threads ]
 	if [ $id -eq 0 ]; then
 	    wait
-	    rm *.gz
  	fi
     done
+    wait
+    rm *.gz
     iter=$[$iter+1]
     cd ../
 done

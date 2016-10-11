@@ -1,36 +1,45 @@
-from modules.file_IO import sum_data
+from modules.file_IO import sum_partial_data, sum_data
 import matplotlib.pyplot as plt
 import numpy as np
+"""
+ Read N_files from the training folder and output a plot of ventricular fluid/brain size vs age.
+"""
+### inputs ####
+names = ["train", "test"]
+N_files = [278, 138] # too lazy to automate this...
+cached_sums=0; # read sums from file (compute them from scratch)
+boundaries = [ # box where the central ventricul is supposed to be
+    [52,121],
+    [62,155],
+    [76,102]
+]
+################
 
-N_files = 278
-cached_sums=1;
+count =0
+for name in names:
+    N = N_files[count]
+    x = np.zeros([N, 3])
+    y = np.loadtxt("targets.csv")[0:N]
 
-
-x = np.zeros([N_files, 3])
-y = np.loadtxt("targets.csv")[0:N_files]
-
-if not cached_sums:
-    for i in range(N_files):
-        try:
-            x[i,0] = sum_data("set_train/spinal_fluid/train_"+str(i+1)+".nii")
-            x[i,1] = sum_data("set_train/grey_matter/train_"+str(i+1)+".nii")
-            x[i,2] = sum_data("set_train/white_matter/train_"+str(i+1)+".nii")
+    if not cached_sums:
+        for i in range(N):
+            x[i,0] = sum_partial_data("set_"+name+"/spinal_fluid/"+name+"_"+str(i+1)+".nii", boundaries)
+            x[i,1] = sum_data("set_"+name+"/grey_matter/"+name+"_"+str(i+1)+".nii")
+            x[i,2] = sum_data("set_"+name+"/white_matter/"+name+"_"+str(i+1)+".nii")
             print("done: ", i+1)
-        except:
-            x[i] = [0,0,0]
-            print("failed: ", i+1)
+        np.savetxt("preprocessed/partial_sums_"+name+"ing.csv",x)
+    else:
+        x = np.loadtxt("preprocessed/partial_sums_"+name+"ing.csv")
 
-    np.savetxt("sums.csv",x)
-else:
-    x = np.loadtxt("sums.csv")
+    # Play around to obtain interesting quantities:
+    ratio = x[:,0]/(x[:,1]+x[:,2]) # central fluid / (white+grey)
+    np.savetxt("ratio_"+name+"ing.csv", ratio)
 
-plt.scatter(y,x[:,0]/(x[:,1]+x[:,2]))
-plt.title("total fluid - brain ratio")
-plt.xlabel("age")
-#plt.savefig("total_fluid_ratio.pdf")
+    if name == "train": # plot
+        plt.scatter(y,ratio)
+        plt.title("central fluid - brain ratio")
+        plt.xlabel("age")
+        plt.savefig("central_fluid_ratio.pdf")
+
+    count += 1
 plt.show()
-
-#clf = svm.SVC(gamma=0.001, C=100.)
-#print("training...")
-#clf.fit(x, y)
-
