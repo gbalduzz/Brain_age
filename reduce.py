@@ -5,7 +5,7 @@ import h5py
 f = h5py.File("preprocessed/reduced.hdf5", "w")
 
 def reduce(out_name, dir):
-    reduced = preprocessing.remove_zero_columns(file_IO.load_directory(dir))
+    reduced = preprocessing.remove_zero_columns(file_IO.load_directory(dir), 1e-7)
     f.create_dataset(out_name, data=reduced)
 
     print("saved: ", out_name, "with size ",reduced.shape)
