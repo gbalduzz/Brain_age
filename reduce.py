@@ -8,5 +8,5 @@ def reduce(out_name, dir):
 
 for name in ["train", "test"]:
     reduce(name+"_grey_reduced.csv", "set_"+name+"/grey_matter/")
-    reduce(name+"_white_reduced.csv", "set_"+name+"/grey_white/")
+    reduce(name+"_white_reduced.csv", "set_"+name+"/white_matter/")
     reduce(name+"_fluid_reduced.csv", "set_"+name+"/spinal_fluid/")
