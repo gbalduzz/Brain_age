@@ -3,13 +3,16 @@ NUM_THREADS = 4
 import nibabel
 import numpy as np
 import os
+import modules.preprocessing as prp
 #from multiprocessing.pool import ThreadPool
 
-def load_directory(dirname):
+def load_directory(dirname, block_length):
     """
     :param dirname: relative dir path
     :return: np. array with n_files, n_features dimensions
     """
+    assert(len(block_length) == 3)
+
     path=os.getcwd()+"/"+dirname
     filenames = [name for name in os.listdir(path) if os.path.isfile(os.path.join(path, name))]
     n = len(filenames)
@@ -19,7 +22,7 @@ def load_directory(dirname):
     assert(type == "train" or type=="test")
     sample_shape = nibabel.load(path+filenames[0]).shape
     four_d = (len(sample_shape) == 4)
-    n_features = np.prod(sample_shape[0]*sample_shape[1]*sample_shape[2])
+    n_features = np.prod(sample_shape)/np.prod(block_length)
     x = np.zeros([n,n_features])
 
     #pool = ThreadPool(NUM_THREADS)
@@ -27,7 +30,7 @@ def load_directory(dirname):
         filename = path+"/"+type+"_"+str(i+1)+".nii"
         data=nibabel.load(filename).get_data()
         if four_d: data = data[:,:,:,0]
-        x[i]= np.ndarray.flatten(data)
+        x[i]= np.ndarray.flatten(prp.block_data(data, block_length))
 
     return x
 
