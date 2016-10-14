@@ -11,6 +11,8 @@ def remove_zero_columns(x,tollerance=0):
     keep_indices = np.greater(max_values,mask)
     return x[:, keep_indices]
 
+max
+
 def block_data(x, l):
     """
     :param x: array to reduce
