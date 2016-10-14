@@ -6,6 +6,7 @@ run the following scripts to extract the brain compomnents and reduce their size
 ```
 bash extrac_components.bash
 python2.7 reduce.py
+python2.7 compute_ratio.py # optional: ratio already precomputed in folder preprocessed/
 ```
 ## Make the predictions
 Run 
