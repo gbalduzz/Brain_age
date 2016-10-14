@@ -36,5 +36,5 @@ print("training time: ", finish-start)
 
 # Make Predictions and save
 prediction = regr.predict(test)
-np.save("prediction.csv", prediction)
+np.savetxt("prediction.csv", prediction)
 
