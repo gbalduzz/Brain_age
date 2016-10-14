@@ -1,5 +1,3 @@
-NUM_THREADS = 4
-
 import nibabel
 import numpy as np
 import os

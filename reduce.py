@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 
 # Size of the data block to be averaged.
-block_dims = np.array([4,4,4])
+block_dims = np.array([2,2,2])
 
 f = h5py.File("preprocessed/reduced.hdf5", "w")
 
