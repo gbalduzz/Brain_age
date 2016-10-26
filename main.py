@@ -27,13 +27,19 @@ scaler = preprocessing.StandardScaler().fit(train)
 train = scaler.transform(train)
 
 # Train the Model
-#start = time.clock()
+start = time.clock()
 print("start training")
 regr = linear_model.ElasticNetCV(l1_ratio = [.5, .75, .95], normalize=True, cv = 5, n_jobs=-1, copy_X=False)
 regr.fit(train,y)
-#finish = time.clock()
-#print("training time: ", finish-start)
+finish = time.clock()
+print("training time: ", finish-start)
 del train
+
+#print model parameters
+print('alpha ', regr.alpha_)
+print('l1 ratio ', regr.l1_ratio_)
+np.savetxt('betas_output.csv', regr.coef_)
+
 
 # Make Predictions and save
 print("loading and making predictions")
