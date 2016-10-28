@@ -1,10 +1,14 @@
-# Age determination from brain scans.
-## Prepare the data
-Unzip the data set in this folder, with the training files named `set_train/train_<n>.nii` and the validation files `set_test/test_<n>.nii`
+# Age determination from brain  MRI scans.
+##Prerequisites
+
+* fsl library, available [here](http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/). Used for extracting brain components.
+* python 2.7 modules: numpy, skilearn, nibabel, h5py.
+* the data set stored in `set_train/train_<id>.nii` and  `set_test/test_<id>.nii`
+
 ## Preprocess
-run the following scripts to extract the brain compomnents and reduce their size
+run the following scripts to extract the brain components and reduce their size by averaging over blocks (size of blocks defined in reduce.py).
 ```
-bash extrac_components.bash
+bash extrac_components.bash # runs the fsl software
 python2.7 reduce.py
 python2.7 compute_ratio.py # optional: ratio already precomputed in folder preprocessed/
 ```
@@ -13,4 +17,6 @@ Run
 ```
 python2.7 main.py
 ```
-The predicted ages will be stored in `predict.csv`. You might want to play around with the parameters of the Elastic Net model.
+The predicted ages will be stored in `predict.csv`. You can run 
+```format.py```
+to format the prediction into the kraggle submission format.
