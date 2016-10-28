@@ -11,14 +11,21 @@ def remove_zero_columns(x,tollerance=0):
     keep_indices = np.greater(max_values,mask)
     return x[:, keep_indices]
 
-max
+def max_variabilty(train, test, n_feat):
+    var = np.var(train, axis=0)
+    indices =  np.argpartition(var)[:n_feat]
+    return train[:,indices], test[:,indices]
 
-def block_data(x, l):
+
+
+def block_data(x, l=[1,1,1]):
     """
     :param x: array to reduce
     :param l: 3D vector of block lengths. must divide exactly x.shape
     :return:  return block sums of the x array
     """
+    if l==[1,1,1]: return x
+
     assert(((np.array(x.shape) % l == 0).all()))
     new_shape = np.array(x.shape) / l;
     res = np.zeros(new_shape)
