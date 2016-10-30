@@ -33,13 +33,13 @@ for name in names:
 
     # Play around to obtain interesting quantities:
     ratio = x[:,0]/(x[:,1]+x[:,2]) # central fluid / (white+grey)
-    np.savetxt("ratio_"+name+"ing.csv", ratio)
+    np.savetxt("preprocessed/ratio_"+name+"ing.csv", ratio)
 
-    if name == "train": # plot
-        plt.scatter(y,ratio)
-        plt.title("central fluid - brain ratio")
-        plt.xlabel("age")
-        plt.savefig("central_fluid_ratio.pdf")
+    # if name == "train": # plot
+    #     plt.scatter(y,ratio)
+    #     plt.title("central fluid - brain ratio")
+    #     plt.xlabel("age")
+    #     plt.savefig("central_fluid_ratio.pdf")
 
     count += 1
 plt.show()

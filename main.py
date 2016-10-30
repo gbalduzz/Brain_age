@@ -45,7 +45,7 @@ np.savetxt('betas_output.csv', regr.coef_)
 print("loading and making predictions")
 test  = np.array(file.get("test_data"))
 file.close()
-test = append_ratio(test, "preprocessed/ratio_test.csv")
+test = append_ratio(test, "preprocessed/ratio_testing.csv")
 test = scaler.transform(test)
 
 prediction = regr.predict(test)

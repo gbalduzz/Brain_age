@@ -6,5 +6,5 @@ mytype = np.dtype([('ID', np.int32), ('prediction', np.float64)])
 out = np.rec.fromarrays((id,data), dtype=mytype)
 print(out)
 print(out[0][0].dtype)
-np.savetxt("giovanni_prediction.csv", out, fmt=["%.d","%.2f"],
+np.savetxt("final_prediction.csv", out, fmt=["%.d","%.2f"],
            delimiter=',', header="ID,prediction", comments='')
